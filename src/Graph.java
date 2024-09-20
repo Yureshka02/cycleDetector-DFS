@@ -21,7 +21,40 @@ public class Graph {
             adj.get(destination).add(source); //add the edge back in the other direction
         }
     }
+    public boolean depthFirstSearch(int node, boolean[] visited,int parent, boolean[] recusiveStack) {
+        visited[node] = true;
 
+        if(isDirectedGraph){
+            recusiveStack[node] = true;
+        }
 
+        for (int neighbour : adj.get(node)) {
+            // for directed graph ,checking if the neighbour is already visited and is in the recusive stack
+            if (isDirectedGraph && recusiveStack[neighbour]) {
+                System.out.println("Cycle detected at edge: "+ node + " - " + neighbour);
+                return true;
+            }
+            // for undirected graph, checking if the neighbour is already visited
+            if (!visited[neighbour]) {
+                if (depthFirstSearch(neighbour, visited, node, recusiveStack)) {
+                    return true;
+                }
+            }
+            // for undirected graph, checking if the neighbour is not the parent of the current node
+            else if(neighbour != parent) {
+                System.out.println("Cycle detected at edge: " + node + " - " + neighbour);
+                return true;
+            }
 
+        }
+        // for directed graph, removing the node from the recusive stack
+        if(isDirectedGraph){
+            recusiveStack[node] = false;
+        }
+        return false;
+    }
+    //function for cycle detection
+    public boolean detectCucle(){
+
+    }
 }
