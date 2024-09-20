@@ -54,7 +54,18 @@ public class Graph {
         return false;
     }
     //function for cycle detection
-    public boolean detectCucle(){
+    public boolean detectCycle() {
+        boolean[] visited = new boolean[Vertices];
+        boolean[] recusiveStack = new boolean[Vertices]; //for directed graph
+        for (int i = 0; i < Vertices; i++) {
+            if (!visited[i]) {
+                if (depthFirstSearch(i, visited, -1, recusiveStack)) {
+                    return true; //cycle detected
+                }
+            }
+        }
+        System.out.println("No cycle detected");
+        return false; //no cycle detected
 
     }
-}
+    }
